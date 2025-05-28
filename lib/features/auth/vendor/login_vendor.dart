@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginVendorView extends StatelessWidget {
-  LoginVendorView({super.key});
+  const LoginVendorView({super.key});
 
-  final controller = Get.put(VendorAuthController());
 
   @override
   Widget build(BuildContext context) {
+  final controller = Get.put(VendorAuthController());
     return Scaffold(
-      appBar: AppBar(title: const Text('Iniciar sesión (Cliente)')),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

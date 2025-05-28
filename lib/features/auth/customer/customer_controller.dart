@@ -1,7 +1,12 @@
+import 'dart:convert';
+import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 class CustomerAuthController extends GetxController {
+
+  final baseUrl = 'https://nginx-proxy-server-production.up.railway.app';
   // Campos de texto
   final emailController = TextEditingController();
   final nameController = TextEditingController();
@@ -17,14 +22,30 @@ class CustomerAuthController extends GetxController {
     final email = emailController.text.trim();
     final password = passwordController.text;
 
-    await Future.delayed(const Duration(seconds: 2)); // Simular API
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/auth/login'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'email': email,
+          'password': password,
+        }),
+      );
+      print(response.body); // 👈 Esto te dirá exactamente qué devuelve el backend
+      final data = jsonDecode(response.body);
 
-    // Validación simple de ejemplo
-    if (email == 'cliente@demo.com' && password == '123456') {
-      Get.snackbar('Éxito', 'Inicio de sesión correcto');
-      Get.toNamed('/dashboard'); // Ruta destino después del login
-    } else {
-      Get.snackbar('Error', 'Credenciales inválidas');
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final box = GetStorage();
+        box.write('accessToken', data['accessToken']);
+        box.write('user', data['user']);
+
+        Get.snackbar('Éxito', 'Registro correcto');
+        Get.toNamed('/dashboard');
+      } else {
+        Get.snackbar('Error', data['message'] ?? 'Error en el registro');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Algo salió mal: $e');
     }
 
     isLoading.value = false;
@@ -37,14 +58,32 @@ class CustomerAuthController extends GetxController {
     final email = emailController.text.trim();
     final password = passwordController.text;
 
-    await Future.delayed(const Duration(seconds: 2)); // Simular API
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/auth/register'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'name': name,
+          'email': email,
+          'password': password,
+          'role': 'buyer',
+        }),
+      );
 
-    // Validación simple de ejemplo
-    if (email == 'cliente@demo.com' && password == '123456' && name == 'pepito') {
-      Get.snackbar('Éxito', 'registro correcto');
-      Get.toNamed('/dashboard'); // Ruta destino después del login
-    } else {
-      Get.snackbar('Error', 'Credenciales inválidas');
+      final data = jsonDecode(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final box = GetStorage();
+        box.write('accessToken', data['accessToken']);
+        box.write('user', data['user']);
+
+        Get.snackbar('Éxito', 'Registro correcto');
+        Get.toNamed('/dashboard');
+      } else {
+        Get.snackbar('Error', data['message'] ?? 'Error en el registro');
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Algo salió mal: $e');
     }
 
     isLoading.value = false;

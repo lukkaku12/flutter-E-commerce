@@ -3,13 +3,13 @@ import 'package:get/get.dart';
 import 'customer_controller.dart';
 
 class LoginCustomerView extends StatelessWidget {
-  LoginCustomerView({super.key});
-  final controller = Get.put(CustomerAuthController());
+  const LoginCustomerView({super.key});
 
   @override
   Widget build(BuildContext context) {
+  final controller = Get.put(CustomerAuthController());
     return Scaffold(
-      appBar: AppBar(title: const Text('Iniciar sesión (Cliente)')),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

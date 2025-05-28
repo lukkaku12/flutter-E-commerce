@@ -1,5 +1,4 @@
-import 'package:e_commerce_app/features/auth/customer/signup_customer.dart';
-import 'package:e_commerce_app/features/auth/vendor/signup_vendor.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:e_commerce_app/core/widgets/feature_item.dart';
@@ -52,7 +51,7 @@ class LandingPage extends StatelessWidget {
                     alignment: WrapAlignment.center,
                     children: [
                       TextButton(
-                        onPressed: () => Get.to(() => SignupCustomerView()),
+                        onPressed: () => Get.toNamed('/user/signup-client'),
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.blue,
                           foregroundColor: Colors.white,
@@ -70,7 +69,7 @@ class LandingPage extends StatelessWidget {
                         ),
                       ),
                       OutlinedButton(
-                        onPressed: () => Get.to(() => SignUpVendorView()),
+                        onPressed: () => Get.toNamed('/user/signup-vendor'),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: Colors.white,
                           side: const BorderSide(color: Colors.white),
