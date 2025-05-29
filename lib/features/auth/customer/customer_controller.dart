@@ -31,7 +31,6 @@ class CustomerAuthController extends GetxController {
           'password': password,
         }),
       );
-      print(response.body); // 👈 Esto te dirá exactamente qué devuelve el backend
       final data = jsonDecode(response.body);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -40,7 +39,7 @@ class CustomerAuthController extends GetxController {
         box.write('user', data['user']);
 
         Get.snackbar('Éxito', 'Registro correcto');
-        Get.toNamed('/dashboard');
+        Get.toNamed('/dashboard/customer');
       } else {
         Get.snackbar('Error', data['message'] ?? 'Error en el registro');
       }

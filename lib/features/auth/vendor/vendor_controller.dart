@@ -39,7 +39,7 @@ class VendorAuthController extends GetxController {
         box.write('user', data['user']);
 
         Get.snackbar('Éxito', 'Registro correcto');
-        Get.toNamed('/dashboard');
+        Get.toNamed('/dashboard/vendor');
       } else {
         Get.snackbar('Error', data['message'] ?? 'Error en el registro');
       }
